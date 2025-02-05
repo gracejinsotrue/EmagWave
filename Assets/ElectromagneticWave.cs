@@ -3,52 +3,61 @@ using UnityEngine.UI;
 
 public class ElectromagneticWave : MonoBehaviour
 {
-    //default numerical assingments but they are bound to change based on slider
     public int points = 100;      
-    public float wavelength = 5f; // Wavelength of the wave
-    public float amplitude = 2f;  // Amplitude of the wave
-    public float speed = 2f;      // Propagation speed
+    public float wavelength = 5f; 
+    public float amplitude = 2f;  
+    public float speed = 2f;      
 
     private LineRenderer electricField;
     private LineRenderer magneticField;
     private float time = 0f;
 
-    public Slider amplitudeSlider; // assignment for Amplitude Slider
+    //declare speed and amplitude sliders
+    public Slider amplitudeSlider; 
+    public Slider speedSlider;     
 
     void Start()
     {
-        //Here is the place where I am putting slider code
-        // Automatically find the slider in the scene if not assigned
+        //amplitude
         if (amplitudeSlider == null)
         {
-            amplitudeSlider = FindObjectOfType<Slider>();
+            amplitudeSlider = GameObject.Find("AmplitudeSlider")?.GetComponent<Slider>();
         }
-
         if (amplitudeSlider != null)
         {
-            amplitudeSlider.onValueChanged.AddListener(value => UpdateAmplitude(value));
+            amplitudeSlider.onValueChanged.AddListener(UpdateAmplitude);
         }
         else
         {
-            Debug.LogError("Amplitude slider not found in the scene. Please assign it in the Inspector.");
+            Debug.LogError("Amplitude slider not assigned or found. Please assign it in the Inspector or name it 'AmplitudeSlider'.");
         }
 
 
+        //speed slider
+        if (speedSlider == null)
+        {
+            speedSlider = GameObject.Find("SpeedSlider")?.GetComponent<Slider>();
+        }
+        if (speedSlider != null)
+        {
+            speedSlider.onValueChanged.AddListener(UpdateSpeed);
+        }
+        else
+        {
+            Debug.LogError("Speed slider not assigned or found. Please assign it in the Inspector or name it 'SpeedSlider'.");
+        }
 
-
-
-        // Create and configure LineRenderers for E and B fields
-        electricField = CreateLineRenderer(Color.red);   // Red for Electric Field
-        magneticField = CreateLineRenderer(Color.blue);  // Blue for Magnetic Field
+        // Create and configure LineRenderers
+        electricField = CreateLineRenderer(Color.red);
+        magneticField = CreateLineRenderer(Color.blue);
     }
 
     void Update()
     {
         time += Time.deltaTime * speed;
 
-        // Draw the waves with the current amplitude
-        DrawWave(electricField, Vector3.right, amplitude); // E field along x-axis
-        DrawWave(magneticField, Vector3.up, amplitude / 2); // B field along y-axis
+        DrawWave(electricField, Vector3.right, amplitude); // Electric field
+        DrawWave(magneticField, Vector3.up, amplitude / 2); // Magnetic field
     }
 
     LineRenderer CreateLineRenderer(Color color)
@@ -69,18 +78,22 @@ public class ElectromagneticWave : MonoBehaviour
 
     void UpdateAmplitude(float value)
     {
-        amplitude = value; // Update the amplitude based on the slider value
+        amplitude = value;
         Debug.Log("Amplitude updated: " + amplitude);
     }
 
-
+    void UpdateSpeed(float value)
+    {
+        speed = value;
+       // Debug.Log("Speed updated: " + speed);
+    }
 
     void DrawWave(LineRenderer lr, Vector3 axis, float amp)
     {
         for (int i = 0; i < points; i++)
         {
-            float z = i * (wavelength / points); // Position along z-axis
-            float y = amp * Mathf.Sin((2 * Mathf.PI / wavelength) * z - time); // Wave equation
+            float z = i * (wavelength / points);
+            float y = amp * Mathf.Sin((2 * Mathf.PI / wavelength) * z - time);
             lr.SetPosition(i, axis * y + Vector3.forward * z);
         }
     }
