@@ -15,6 +15,7 @@ public class ElectromagneticWave : MonoBehaviour
     //declare speed and amplitude sliders
     public Slider amplitudeSlider; 
     public Slider speedSlider;     
+    // public Slider frequencySlider;
 
     void Start()
     {
@@ -46,6 +47,13 @@ public class ElectromagneticWave : MonoBehaviour
         {
             Debug.LogError("Speed slider not assigned or found. Please assign it in the Inspector or name it 'SpeedSlider'.");
         }
+
+        // if (frequencySlider == null){
+        //     frequencySlider = GameObject.Find("FrequencySlider")?.GetComponent<Slider>();
+        // }
+
+        
+
 
         // Create and configure LineRenderers
         electricField = CreateLineRenderer(Color.red);
