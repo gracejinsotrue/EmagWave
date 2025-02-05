@@ -1,0 +1,30 @@
+# Unity-generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+Packages/
+
+# Ignore Auto-generated VS/JetBrains project files
+*.csproj
+*.sln
+*.userprefs
+.vscode/
+
+# Ignore Unity metadata files
+*.pidb
+*.suo
+*.user
+*.unityproj
+*.booproj
+
+# Ignore crashes and logs
+sysinfo.txt
+crashlog.txt
+
+# Ignore local environment settings
+*.swp
+.DS_Store
